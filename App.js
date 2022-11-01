@@ -1,10 +1,11 @@
 import React, { useEffect, useState, } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, AsyncStorage, TextInput, Button, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button, Alert } from 'react-native';
 import  Navigation from './components/Navigation';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import OnboardingScreen from './screens/OnboardingScreen';
 import Home from './screens/Home';
 import { NavigationContainer } from '@react-navigation/native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
@@ -36,13 +37,13 @@ return(
         placeholder='Cell Phone'>
         </TextInput>
         <Button
-        title='Send'
+        title='Verify'
         style={styles.button}
         onPress={async()=>{
           console.log('button was pressed')
 
           await fetch(
-            "https://dev.stedi.me/twofactorlogin/", phoneNumber,
+            "https://dev.stedi.me/twofactorlogin/"+phoneNumber,
             {
               method: "Post",
               headers:{
@@ -79,14 +80,18 @@ return(
               })
             }
           )
-          console.log(loginResponse.status)
+          console.log("status", loginResponse.status)
+          const loginToken = await loginResponse.text();
+          console.log("login tokin", loginToken);
 
           if(loginResponse.status == 200){
             const sessionToken = await loginResponse.text();
-            console.log('sessionToken', sessionToken)
+            await AsyncStorage.setItem('sessionToken', sessionToken);
+            console.log('sessionToken', sessionToken);
             setIsLoggedIn(true);
           }
           else{
+            console.log("Token response Status", loginResponse.status);
             Alert.alert('Warning', 'An invalid Code was entered.')
           }
         }}
