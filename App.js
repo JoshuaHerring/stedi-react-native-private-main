@@ -41,7 +41,7 @@ return(
  
 );
 }else if(isLoggedIn){
-  return <Navigtion/>
+  return <Navigation/>
 } else{
     return (
       <View>
@@ -96,10 +96,7 @@ return(
               })
             }
           )
-          console.log("status", loginResponse.status);
-          const loginToken = await loginResponse.text();
-          console.log("login tokin", loginToken);
-
+    
           if(loginResponse.status == 200){
             const sessionToken = await loginResponse.text();
             await AsyncStorage.setItem('sessionToken', sessionToken);
