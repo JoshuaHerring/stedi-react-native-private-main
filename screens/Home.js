@@ -27,7 +27,7 @@ const todayScore = async() =>{
 //     password:"Patricia2596@"
 //   })
 // });
-const userEmail = await AsyncStorage.getItem('userEmail');
+const userEmail = await AsyncStorage.getItem('userEmail'); /// same name as in app
  token.current = await AsyncStorage.getItem('sessionToken');
     const scoreResponse = await fetch('https://dev.stedi.me/riskscore/', + userEmail,{
     method:'GET',
@@ -37,6 +37,7 @@ const userEmail = await AsyncStorage.getItem('userEmail');
     }
   })
   console.log('token:', token.current);
+  console.log("email address", userEmail)
   scoreObject = await scoreResponse.json();
   setScore(scoreObject.score);
   console.log(scoreObject.score);
