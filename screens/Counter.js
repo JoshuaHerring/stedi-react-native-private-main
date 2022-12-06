@@ -10,6 +10,7 @@ import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage, button
 import exerciseImg from '../image/exercise2.png';
 import ProgressBar from 'react-native-progress/Bar';
 import { FontAwesome5 } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { Ionicons} from 'react-native-vector-icons';
 // import { Button } from 'react-native-elements';
 // import { IconButton } from 'react-native-paper';
@@ -22,6 +23,16 @@ export default function Counter(props) {
 
  const [currentScreen, setCurrentScreen] = useState('counter');
 useEffect(()=>{
+  const getUsernName = async ()=>{
+    userName.current=await AsyncStorage.getItem('userEmail');
+    console.log('counter userName', userName.current);
+    token.current = await AsyncStorage.getItem('sessionToken');
+    console.log('token', token.current);
+  };
+  getUsernName();
+},[]);
+
+useEffect(()=> {
   if (currentScreen == 'counter'){
     if (completionCount == 1){
      setCurrentScreen('break');
@@ -125,7 +136,7 @@ totalSteps:30
 const getResults = async () =>{
 
 try{
-  const scoreResponse = await fetch('https://dev.stedi.me/riskscore/rom19010@byui.edu',{
+  const scoreResponse = await fetch('https://dev.stedi.me/riskscore/' + userName.current,{
   method:'GET',
   headers:{
     'Content-Type': 'application/json',
@@ -135,7 +146,7 @@ try{
 const scoreObject = await scoreResponse.json();
 console.log("score:",scoreObject.score);
 setScore(scoreObject.score);
-props.setHomeTodayScore(scoreObject.score);
+// props.setHomeTodayScore(scoreObject.score);
 }catch(error){
   console.log('error', error);
  }
