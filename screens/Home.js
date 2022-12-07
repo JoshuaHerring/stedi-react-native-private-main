@@ -38,7 +38,7 @@ const userEmail = await AsyncStorage.getItem('userEmail'); /// same name as in a
   })
   console.log('token:', token.current);
   console.log("email address", userEmail)
-  scoreObject = await scoreResponse.json();
+  scoreObject = await scoreResponse.json();//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   setScore(scoreObject.score);
   console.log(scoreObject.score);
   }catch(error){

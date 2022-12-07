@@ -98,18 +98,19 @@ stepPoints  = [];
    previousTime = stepObject.time;
    stepPoints.push(stepTime);
 }); 
-stepPoints.length=30;
+// stepPoints.length=30;
   try{
-    const tokenResponse = await fetch('https://dev.stedi.me/login',{
-  method: 'POST',
-  body:JSON.stringify({
-    userName: "rom19010@byui.edu",
-    password:"Patricia2596@"
-  })
-});
+  //   const tokenResponse = await fetch('https://dev.stedi.me/login',{
+  // method: 'POST',
+  // body:JSON.stringify({
+  //   userName: "rom19010@byui.edu",
+  //   password:"Patricia2596@"
+//   })
+// });
+// token.current = await tokenResponse.text();
+// console.log('token:' ,token.current);
 
- token.current = await tokenResponse.text();
-console.log('token:' ,token.current);
+
 await fetch('https://dev.stedi.me/rapidsteptest',{
   method:'POST',
   headers:{
@@ -117,7 +118,7 @@ await fetch('https://dev.stedi.me/rapidsteptest',{
    'suresteps.session.token': token.current
   },
   body:JSON.stringify({
-customer:'rom19010@byui.edu',
+customer:{userName},
 startTime: startTime.current,
 stepPoints,
 stopTime: stopTime.current,
