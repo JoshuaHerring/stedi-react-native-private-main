@@ -20,16 +20,15 @@ export default function Counter(props) {
  const [completionCount, setCompletionCount] = useState(0);
  const [counter, setCounter] = useState(3); //(180 3 mins)
  const [score, setScore] = useState(0);
-
  const [currentScreen, setCurrentScreen] = useState('counter');
 useEffect(()=>{
-  const getUsernName = async ()=>{
-    userName.current=await AsyncStorage.getItem('userEmail');
-    console.log('counter userName', userName.current);
+  const getUserEmail = async ()=>{
+    userEmail.current=await AsyncStorage.getItem('userEmail');
+    console.log('counter userEmail', userEmail.current);
     token.current = await AsyncStorage.getItem('sessionToken');
     console.log('token', token.current);
   };
-  getUsernName();
+  getUserEmail();
 },[]);
 
 useEffect(()=> {
@@ -79,6 +78,7 @@ const startTime = useRef(0);
 const stopTime = useRef(0);
 const testTime = useRef(0);
 const token = useRef("");
+const userEmail = useRef("");
 
 
 const savingSteps = async(event) =>{
@@ -118,7 +118,7 @@ await fetch('https://dev.stedi.me/rapidsteptest',{
    'suresteps.session.token': token.current
   },
   body:JSON.stringify({
-customer:{userName},
+customer:userEmail.current,
 startTime: startTime.current,
 stepPoints,
 stopTime: stopTime.current,
@@ -137,7 +137,7 @@ totalSteps:30
 const getResults = async () =>{
 
 try{
-  const scoreResponse = await fetch('https://dev.stedi.me/riskscore/' + userName.current,{
+  const scoreResponse = await fetch('https://dev.stedi.me/riskscore/' + userEmail.current,{
   method:'GET',
   headers:{
     'Content-Type': 'application/json',
